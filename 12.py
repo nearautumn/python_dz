@@ -10,3 +10,7 @@
 sum = int(input('Введите сумму чисел: '))
 prod = int(input('Введите произведение чисел: '))
 
+for i in range(sum):
+    for j in range(prod):
+        if sum == i + j and prod == i * j:
+            print(f'Это числа {i} и {j}')
