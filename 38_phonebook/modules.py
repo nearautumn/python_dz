@@ -1,9 +1,14 @@
 def get_new_id(phonebook: str) -> int:
     with open(phonebook, 'r', encoding = 'utf-8') as f:
         lines = f.readlines()
-        last_line = lines[-1]
-        new_id = int(last_line[:(last_line.find(';'))]) + 1
-        return new_id
+        record = lines[0]
+        new_id = int(record[:record.find(';')])
+        print('первый', new_id)
+        for i in range(1, len(lines)):
+            record = lines[i]
+            if int(record[:record.find(';')]) > new_id:
+                new_id = int(record[:record.find(';')])
+        return new_id + 1
 
 def show_all_records(phonebook: str):
     ls = []
@@ -33,27 +38,14 @@ def edit_record(phonebook: str):
     list_phonebook = []
     with open(phonebook, 'r', encoding='utf-8') as f:
         list_phonebook = f.readlines()
-    for i in list_phonebook:
-        if i.startswith(editing_id):
-            editing_record = i
-    print ('Что Вы хотите изменить?', 
-    '1 - Фамилия;',
-    '2 - Имя;',
-    '3 - Отчество;',
-    '4 - Номер телефона;')
-    user_select = int(input())
-    new_contact_list = editing_record.split(';')
-    if user_select == 1:
-        new_contact_list[1] = input('Введите фамилию: ') 
-    elif user_select == 2:
-        new_contact_list[2] = input('Введите имя: ') 
-    elif user_select == 3:
-        new_contact_list[3] = input('Введите отчество: ') 
-    elif user_select == 4:
-        new_contact_list[4] = input('Введите номер телефона')
-    new_record = ';'.join(new_contact_list)
-    list_phonebook.append(('\n' + new_record))
-    del list_phonebook[editing_record.index(editing_id)]
+    for i in range(len(list_phonebook)):
+        if list_phonebook[i].startswith(editing_id):
+            j = i
+    surname = input('Введите фамилию: ')
+    name = input('Введите имя: ')
+    second_name = input('Введите отчество: ')
+    phone_number = input('Введите номер телефона: ')
+    list_phonebook[j] = str(get_new_id(phonebook)) + ';' + surname + ';' + name + ';' + second_name + ';' + phone_number + '\n' 
     with open (phonebook, 'w', encoding='utf-8') as f:
         f.writelines(list_phonebook)
 
